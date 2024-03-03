@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
+from accounts.models import User
+from accounts.forms import UserRegisterForm 
 
 '''
 login view
@@ -23,10 +25,14 @@ def login_page(request):
 ''' register view'''
 def register_page(request):
     if request.method=='POST':
-        email = request.POST.get('email')
-        first_name = request.POST.get('first_name')
-        last_name = request.POST.get('last_name')
-        password1 = request.POST.get('password1')
-        password2 = request.POST.get('password2')
+        form = UserRegisterForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('accounts:login_page')
+        else:
+            form = UserRegisterForm()
+        context = {
+            "form":form
+        }
         
-    return render(request,"accounts/register.html")
+    return render(request,"accounts/register.html", context)
