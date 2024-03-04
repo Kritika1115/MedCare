@@ -28,6 +28,9 @@ def login_page(request):
 ''' register view'''
 def register_page(request):
     context = {}
+    if request.user.is_authenticated:
+        return redirect('dashboard:dashboard_page')
+    
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
         if form.is_valid():
