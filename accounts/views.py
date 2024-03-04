@@ -29,12 +29,13 @@ def register_page(request):
         form = UserRegisterForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
-            user.is_patient=True
+            user.is_patient = True
             user.save()
             return redirect('accounts:login_page')
+        print(form.errors,"----------")
     else:
         form = UserRegisterForm()       
     context = {
         'form': form,   
     }        
-    return render(request, 'account/register.html', context)
+    return render(request, 'accounts/register.html', context)
