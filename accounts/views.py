@@ -24,15 +24,17 @@ def login_page(request):
 
 ''' register view'''
 def register_page(request):
-    if request.method=='POST':
+    context = {}
+    if request.method == 'POST':
         form = UserRegisterForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save(commit=False)
+            user.is_patient=True
+            user.save()
             return redirect('accounts:login_page')
-        else:
-            form = UserRegisterForm()
-        context = {
-            "form":form
-        }
-        
-    return render(request,"accounts/register.html", context)
+    else:
+        form = UserRegisterForm()       
+    context = {
+        'form': form,   
+    }        
+    return render(request, 'account/register.html', context)
