@@ -33,14 +33,16 @@
 
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
-
+        
         <!-- Navbar -->
         {% block navbar %}{% endblock navbar %}
         <!-- /.navbar -->
 
         <!-- Main Sidebar Container -->
         {% block sidebar %}{% endblock sidebar %}
+        <div class="content-wrapper">
             <section class="content">
+
                 <!-- main containent here  -->
             {% block content %}{% endblock content %}
             </section>
