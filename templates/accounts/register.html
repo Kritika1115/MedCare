@@ -19,7 +19,7 @@
 <body class="hold-transition register-page">
 <div class="register-box">
 
-  <div class="card" style='border-radius:5vh;'>
+  <div class="card" style='border-radius:1vh;'>
     <div class="register-logo mt-3">
       <a href="#"><b>MedCare</b></a>
     </div>
@@ -66,6 +66,11 @@
           </div>
         </div>
         {{form.password2.errors}}
+        {% if messages %}
+        {% for message in messages  %}
+        <p class='text-center'> {{message }} <a href="{% url "accounts:login_page" %}">Login here</a></p>
+        {% endfor %}
+        {% endif %}
         <div class="row">
           <div class="col-12">
             <button type="submit" class="btn btn-primary btn-block">Register</button>
@@ -75,7 +80,7 @@
       <p class="text-center mt-4">Already have account?<a href="{% url "accounts:login_page" %}">Login</a></p>
     </div>
   </div>
-</div>-
+</div>
 
 <script src="/static/plugins/jquery/jquery.min.js"></script>
 <script src="/static/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
