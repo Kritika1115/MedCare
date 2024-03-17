@@ -7,6 +7,7 @@ class Appointments(models.Model):
     doctor_specialization = models.CharField(max_length=255)
     patient_problem = models.TextField()
     created_date = models.DateTimeField(auto_now_add=True)
+    phone = models.CharField(max_length=255)
     notes = models.TextField()
 
     class Meta:
