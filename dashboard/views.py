@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from dashboard.models import Appointments
+from dashboard.forms import DoctorRegisterForm
+from django.contrib import messages
 
 # Create your views here.
 @login_required(login_url='/')
@@ -10,3 +12,19 @@ def dashboard_page(request):
         'appointment': appointments
     }
     return render(request,'dashboard/dashboard.html', context)
+
+
+@login_required(login_url='/')
+def add_doctor(request):
+    if request.method == 'POST':
+        form = DoctorRegisterForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.is_active = True
+            user.is_doctor = True
+            user.username = form.cleaned_data.get('email')
+            user.save()
+            messages.success(request, "Successfully added doctor")
+    else:
+        form = DoctorRegisterForm()
+    return render(request, 'dashboard/doctor/add.html', {'form': form})
