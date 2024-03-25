@@ -1,9 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from dashboard.models import Appointments
 from dashboard.forms import DoctorRegisterForm
 from django.contrib import messages
 from accounts.models import User
+
 
 # Create your views here.
 @login_required(login_url='/')
@@ -37,3 +38,9 @@ def list_doctor(request):
         'doctors': doctor
         }
     return render(request,"dashboard/doctor/list.html", context)
+
+@login_required(login_url='/')
+def delete_doctor(request, id):
+    doctor = User.objects.filter(id=id).first()
+    doctor.delete()
+    return redirect("dashboard:list_doctor")
