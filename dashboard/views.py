@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from dashboard.models import Appointments
 from dashboard.forms import DoctorRegisterForm
 from django.contrib import messages
+from accounts.models import User
 
 # Create your views here.
 @login_required(login_url='/')
@@ -28,3 +29,11 @@ def add_doctor(request):
     else:
         form = DoctorRegisterForm()
     return render(request, 'dashboard/doctor/add.html', {'form': form})
+
+@login_required(login_url='/')
+def list_doctor(request):
+    doctor = User.objects.filter(is_doctor=True)
+    context = {
+        'doctors': doctor
+        }
+    return render(request,"dashboard/doctor/list.html", context)

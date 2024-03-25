@@ -1,0 +1,43 @@
+{% extends "partials/layout.html" %}   
+
+{% block navbar %}
+{% include "partials/navbar.html" %}
+{% endblock navbar %}
+        
+      
+{% block sidebar %}
+{% include "partials/sidebar.html" %}
+{% endblock sidebar %}
+            
+                
+{% block content %}
+{% load crispy_forms_tags %}
+{% if request.user.is_superuser %}
+<h1 class="m-2 text-mute text-center">Doctors List</h1>
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">S.N</th>
+        <th scope="col">Name</th>
+        <th scope="col">Address</th>
+        <th scope="col">Contact</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for doctor in doctors  %}
+      <tr>
+        <th scope="row">{{forloop.counter}}</th>
+        <td>{{doctor.first_name }} {{doctor.last_name}}</td>
+        <td>{{doctor.address}}</td>
+        <td>{{doctor.phone}}</td>
+        <td><a href="#">Edit</a> | <a href="#">Delete</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endif %}
+{% endblock content %}  
+{% block script %}
+{% include "partials/script.html" %} 
+{% endblock script %}
