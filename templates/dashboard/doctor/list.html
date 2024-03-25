@@ -31,7 +31,7 @@
         <td>{{doctor.first_name }} {{doctor.last_name}}</td>
         <td>{{doctor.address}}</td>
         <td>{{doctor.phone}}</td>
-        <td><a href="#" class="btn btn-primary">Edit</a> | <a href="#"class="btn btn-danger" data-toggle="modal" data-target="#d{{doctor.id}}">Delete</a></td>
+        <td><a href="{% url "dashboard:update_doctor" doctor.id %}" class="btn btn-primary">Edit</a> | <a href="#"class="btn btn-danger" data-toggle="modal" data-target="#d{{doctor.id}}">Delete</a></td>
       </tr>
       <!-- Button trigger modal -->
 <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">

@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from dashboard.models import Appointments
-from dashboard.forms import DoctorRegisterForm
+from dashboard.forms import DoctorRegisterForm, DoctorUpdateForm
 from django.contrib import messages
 from accounts.models import User
 
@@ -27,6 +27,7 @@ def add_doctor(request):
             user.username = form.cleaned_data.get('email')
             user.save()
             messages.success(request, "Successfully added doctor")
+            return redirect("dashboard:list_doctor")
     else:
         form = DoctorRegisterForm()
     return render(request, 'dashboard/doctor/add.html', {'form': form})
@@ -41,6 +42,23 @@ def list_doctor(request):
 
 @login_required(login_url='/')
 def delete_doctor(request, id):
-    doctor = User.objects.filter(id=id).first()
+    doctor = User.objects.filter(is_doctor=True, id=id).first()
     doctor.delete()
     return redirect("dashboard:list_doctor")
+
+@login_required(login_url='/')
+def update_doctor(request, id):
+    doctor = User.objects.filter(is_doctor=True, id=id).first()
+    if request.method == 'POST':
+        form = DoctorUpdateForm(request.POST, instance=doctor)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.is_active = True
+            user.is_doctor = True
+            user.username = form.cleaned_data.get('email')
+            user.save()
+            messages.success(request, "Successfully updated doctor")
+            return redirect("dashboard:list_doctor")
+    else:
+        form = DoctorUpdateForm(instance=doctor)
+    return render(request, "dashboard/doctor/update.html", {'form': form})

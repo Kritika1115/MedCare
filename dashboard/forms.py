@@ -6,3 +6,8 @@ class DoctorRegisterForm(UserCreationForm):
     class Meta:
         model = User
         fields = ['email','first_name', 'last_name', 'phone', 'dob', 'address','password1','password2']
+
+class DoctorUpdateForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['email','first_name', 'last_name', 'phone', 'dob', 'address']
