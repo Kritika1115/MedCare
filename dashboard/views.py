@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from dashboard.models import Appointments
-from dashboard.forms import DoctorRegisterForm, DoctorUpdateForm
+from dashboard.forms import DoctorRegisterForm, DoctorUpdateForm, AppointmentUpdateForm
 from django.contrib import messages
 from accounts.models import User
 
@@ -73,3 +73,17 @@ def delete_appointment(request, id):
     appointment = Appointments.objects.filter(id=id).first()
     appointment.delete()
     return redirect("dashboard:appointment_list_admin")
+
+@login_required(login_url='/')
+def update_appointment(request, id):
+    appointment = Appointments.objects.filter(id=id).first()
+    if request.method == 'POST':
+        form = AppointmentUpdateForm(request.POST, instance=appointment)
+        if form.is_valid():
+            appointment = form.save(commit=False)
+            appointment.save()
+            messages.success(request, "Successfully updated appointment")
+            return redirect("dashboard:appointment_list_admin")
+    else:
+        form = AppointmentUpdateForm(instance=appointment)
+    return render(request, "dashboard/doctor/update.html", {'form': form})
