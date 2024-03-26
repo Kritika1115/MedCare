@@ -62,3 +62,14 @@ def update_doctor(request, id):
     else:
         form = DoctorUpdateForm(instance=doctor)
     return render(request, "dashboard/doctor/update.html", {'form': form})
+
+@login_required(login_url='/')
+def appointment_list_admin(request):
+    appointment = Appointments.objects.all()
+    return render(request, "dashboard/appointment/list.html", {"appointment": appointment})
+
+@login_required(login_url='/')
+def delete_appointment(request, id):
+    appointment = Appointments.objects.filter(id=id).first()
+    appointment.delete()
+    return redirect("dashboard:appointment_list_admin")

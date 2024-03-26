@@ -8,4 +8,6 @@ urlpatterns = [
     path("doctors/", dashboard.list_doctor, name="list_doctor"),
     path("doctors/delete/<int:id>", dashboard.delete_doctor, name="delete_doctor"),
     path("doctors/update/<int:id>", dashboard.update_doctor, name="update_doctor"),
+    path("appointment/", dashboard.appointment_list_admin, name="appointment_list_admin"),
+    path("appointment/delete/<int:id>", dashboard.delete_appointment, name="delete_appointment"),
 ]
