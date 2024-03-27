@@ -1,7 +1,9 @@
 from django.db import models
+from accounts.models import User
 
 # Create your models here.
 class Appointments(models.Model):
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='user' )
     patient_name = models.CharField(max_length=255)
     doctor_name = models.CharField(max_length=255)
     doctor_specialization = models.CharField(max_length=255)
