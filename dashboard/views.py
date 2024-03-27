@@ -87,3 +87,16 @@ def update_appointment(request, id):
     else:
         form = AppointmentUpdateForm(instance=appointment)
     return render(request, "dashboard/doctor/update.html", {'form': form})
+
+@login_required(login_url='/')
+def add_appointment(request):
+    if request.method == 'POST':
+        form = AppointmentUpdateForm(request.POST)
+        if form.is_valid():
+            appointment = form.save(commit=False)
+            appointment.save()
+            messages.success(request, "Successfully added appointment")
+            return redirect("dashboard:appointment_list_admin")
+    else:
+        form = AppointmentUpdateForm()
+    return render(request, 'dashboard/appointment/add.html', {'form': form})
