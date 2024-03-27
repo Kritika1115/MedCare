@@ -100,3 +100,14 @@ def add_appointment(request):
     else:
         form = AppointmentUpdateForm()
     return render(request, 'dashboard/appointment/add.html', {'form': form})
+
+@login_required(login_url='/')
+def patient_list(request):
+    patient = User.objects.filter(is_patient=True)
+    return render(request, "dashboard/patient/list.html", {"patients":patient})
+
+@login_required(login_url='/')
+def delete_patient(request, id):
+    patient = User.objects.filter(id=id).first()
+    patient.delete()
+    return redirect("dashboard:patient_list")

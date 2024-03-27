@@ -35,7 +35,7 @@
         </div>
         {{form.first_name.errors}}
         <div class="input-group mb-3">
-          {% render_field form.first_name class="form-control" placeholder="Enter your last name" %}
+          {% render_field form.last_name class="form-control" placeholder="Enter your last name" %}
           <div class="input-group-append">
             <div class="input-group-text">
             </div>
@@ -50,6 +50,22 @@
           </div>
         </div>
         {{form.email.errors}}
+        <div class="input-group mb-3">
+          {% render_field form.phone class="form-control" placeholder="Enter your contact number" %}
+          <div class="input-group-append">
+            <div class="input-group-text">
+            </div>
+          </div>
+        </div>
+        {{form.phone.errors}}
+        <div class="input-group mb-3">
+          {% render_field form.address class="form-control" placeholder="Enter your address" %}
+          <div class="input-group-append">
+            <div class="input-group-text">
+            </div>
+          </div>
+        </div>
+        {{form.address.errors}}
         <div class="input-group mb-3">
           {% render_field form.password1 class="form-control" placeholder="Enter your password" %}
           <div class="input-group-append">

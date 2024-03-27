@@ -6,7 +6,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 class UserRegisterForm(UserCreationForm):
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'email', 'password1','password2']
+        fields = ('first_name', 'last_name', 'email', 'phone', 'address', 'password1','password2')
 
 class CustomPasswordChangeForm(PasswordChangeForm):
     pass
