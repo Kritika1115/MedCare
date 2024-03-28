@@ -10,8 +10,58 @@ from accounts.models import User
 @login_required(login_url='/')
 def dashboard_page(request):
     appointments = Appointments.objects.all()
+    jan_appointment = Appointments.objects.filter(created_date__month=1).count()
+    feb_appointment = Appointments.objects.filter(created_date__month=2).count()
+    mar_appointment = Appointments.objects.filter(created_date__month=3).count()
+    apr_appointment = Appointments.objects.filter(created_date__month=4).count()
+    may_appointment = Appointments.objects.filter(created_date__month=5).count()
+    june_appointment = Appointments.objects.filter(created_date__month=6).count()
+    july_appointment = Appointments.objects.filter(created_date__month=7).count()
+    aug_appointment = Appointments.objects.filter(created_date__month=8).count()
+    sep_appointment = Appointments.objects.filter(created_date__month=9).count()
+    oct_appointment = Appointments.objects.filter(created_date__month=10).count()
+    nov_appointment = Appointments.objects.filter(created_date__month=11).count()
+    dec_appointment = Appointments.objects.filter(created_date__month=12).count()
+    
+    jan_patient = User.objects.filter(date_joined__month=1).count()
+    feb_patient = User.objects.filter(date_joined__month=2).count()
+    mar_patient = User.objects.filter(date_joined__month=3).count()
+    apr_patient = User.objects.filter(date_joined__month=4).count()
+    may_patient = User.objects.filter(date_joined__month=5).count()
+    june_patient = User.objects.filter(date_joined__month=6).count()
+    july_patient = User.objects.filter(date_joined__month=7).count()
+    aug_patient = User.objects.filter(date_joined__month=8).count()
+    sep_patient = User.objects.filter(date_joined__month=9).count()
+    oct_patient = User.objects.filter(date_joined__month=10).count()
+    nov_patient = User.objects.filter(date_joined__month=11).count()
+    dec_patient = User.objects.filter(date_joined__month=12).count()
     context = {
-        'appointment': appointments
+        'appointment': appointments,
+        'jan' : jan_appointment,
+        'feb' : feb_appointment,
+        'mar' : mar_appointment,
+        'apr' : apr_appointment,
+        'may' : may_appointment,
+        'june': june_appointment,
+        'july' : july_appointment,
+        'aug' : aug_appointment,
+        'sep' : sep_appointment,
+        'oct' : oct_appointment,
+        'nov' : nov_appointment,
+        'dec' : dec_appointment,
+        
+        'pjan' : jan_patient,
+        'pfeb' : feb_patient,
+        'pmar' : mar_patient,
+        'papr' : apr_patient,
+        'pmay' : may_patient,
+        'pjune': june_patient,
+        'pjuly' : july_patient,
+        'paug' : aug_patient,
+        'psep' : sep_patient,
+        'poct' : oct_patient,
+        'pnov' : nov_patient,
+        'pdec' : dec_patient
     }
     return render(request,'dashboard/dashboard.html', context)
 
