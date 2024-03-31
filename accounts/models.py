@@ -11,4 +11,4 @@ class User(AbstractUser):
     dob = models.DateField(null=True, blank=True)
 
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = "first_name","last_name"
+    REQUIRED_FIELDS = "username","first_name","last_name"
