@@ -99,9 +99,49 @@
     </div>
  </div>
  {% endif %}
- {% if if request.user.is_authenticated %}
+ {% if request.user.is_authenticated %}
  {% if request.user.is_patient %}
- <h2>Your Appointment</h2>
+ <h2 class="text-center pt-3">Your Appointment</h2>
+ {% for i in user_appointment  %}
+<div class="card">
+   <div class="card-body mt-2 mb-1">
+       <div class="row">
+           <div class="col-12 col-md-12 col-lg-12 order-2 order-md-1">
+               <div class="row">
+                   <div class="col-12">
+                       <div class="post">
+                           <span class="description">Doctor Name: {{i.doctor_name}} | Doctor Speciality:{{i.doctor_specialization}}</span>
+                           <hr>
+                           <div class="row">
+                               <div class="col-3">
+                                <p>Patient name: {{i.patient_name}}</p>
+                               </div>
+                               <div class="col-3">Lorem, ipsum dolor.</div>
+                               <div class="col-3">Lorem, ipsum dolor.</div>
+                               <div class="col-3">Lorem, ipsum dolor.</div>
+                           </div><hr>
+                           <div class="col-12">
+                            <h6 class="text-mute " style="text-decoration: underline;">Patient problem</h6>
+                               {{i.patient_problem | safe}}
+                           </div>
+                           <hr>
+                           <div class="col-12">
+                            <h6 class="text-mute" style="text-decoration: underline;">Doctor pescription</h6>
+                               {{i.notes | safe}}
+                           </div>
+                           <p>
+                               <a href="#" class="link-black text-sm">Checked BY Doct: ram parasad</a>
+                           </p>
+                       </div> 
+                   </div>
+               </div>
+           </div>
+       </div>
+   </div>
+   <!-- /.card-body -->
+</div>
+{% endfor %}
+
  {% endif %}
  {% endif %}
 {% endblock content %}
