@@ -1,0 +1,90 @@
+{% extends "partials/layout.html" %}   
+
+{% block navbar %}
+{% include "partials/navbar.html" %}
+{% endblock navbar %}
+        
+      
+{% block sidebar %}
+{% include "partials/sidebar.html" %}
+{% endblock sidebar %}
+            
+                
+{% block content %}
+{% if request.user.is_superuser %}
+<h1 class="m-2 text-mute">Your Appointment</h1>
+ 
+ <div class="col-12">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Your Appointment</h3>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th style="width: 10px">S.N</th>
+                        <th>Patient Name</th>
+                        <th>Doctor name </th>
+                        <th>Doctor specialization</th>
+                        <th>Contact</th>
+                        {% comment %} 
+                         {% endcomment %}
+                        <th>Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in appointment  %}
+                    <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td><a href="#">{{i.patient_name}}</a></td>
+                        <td><a href="#">{{i.doctor_name }}</a></td>
+                        <td>{{i.doctor_specialization}}</td>
+                        <td>{{i.phone}}</td>
+                        {% comment %} {% if i.is_accepted %}
+                        <td class="badge badge-success">accepted</td>
+                        {% else %}
+                        <td class="badge badge-danger">pending</td>
+                        {% endif %}
+                        {% if i.is_checked_by_doctor %}
+                        <td class="badge badge-success">checked by doctor</td>
+                        {% else %}
+                        <td class="badge badge-danger">pending</td>
+                        {% endif %}  {% endcomment %}
+                        <td>{{i.created_date}}</td>
+                        <td><a href="{% url "dashboard:update_appointment" i.id %}" class="btn btn-primary">Update </a> | <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#d{{i.id}}">Delete</a></td>
+                    </tr>
+                    <div class="modal fade" id="d{{i.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel">Are you sure?</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <div class="modal-body">
+                                {{i.patient_name}}
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                              <a href="{% url "dashboard:delete_appointment" i.id %}" class="btn btn-danger" >Delete</a> 
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    {% endfor %} 
+                </tbody>
+            </table>
+        </div>
+    </div>
+ </div>
+ {% endif %}
+{% endblock content %}
+           
+   
+{% block script %}
+{% include "partials/script.html" %} 
+{% endblock script %}

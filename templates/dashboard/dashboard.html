@@ -11,55 +11,54 @@
             
                 
 {% block content %}
+{% if request.user.is_superuser %}
+<h1 class="m-2 text-mute">DashBoard</h1>
 <div class="row mt-2">
-    <div class="col-lg-3 col-6">
+    <div class="col-lg-4 ">
         <!-- small box -->
         <div class="small-box bg-info">
             <div class="inner">
-                <h3>150</h3>
- 
- 
-                <p>Total medicine</p>
+                <h3>{{total_patient}}</h3>
+                <p>Total Patient</p>
+                <div class="icon"> <i class="fa fa-user" aria-hidden="true"></i> </div>
+                
             </div>
         </div>
     </div>
     <!-- ./col -->
-    <div class="col-lg-3 col-6">
+    <div class="col-lg-4 ">
         <!-- small box -->
         <div class="small-box bg-info">
             <div class="inner">
-                <h3>53</h3>
- 
- 
-                <p>Total Users</p>
+                <h3>{{total_doctor}}</h3>
+                <p>Total Doctors</p>
+                <div class="icon"> <i class="fa fa-user-md" aria-hidden="true"></i></div>
             </div>
         </div>
     </div>
     <!-- ./col -->
-    <div class="col-lg-3 col-6">
+    <div class="col-lg-4 ">
         <!-- small box -->
         <div class="small-box bg-info">
             <div class="inner">
-                <h3>44</h3>
- 
- 
-                <p>User Docters</p>
+                <h3>{{total_appointment}}</h3>
+                <p>Appointment Today</p>
+                <div class="icon"> <i class="fa fa-calendar" aria-hidden="true"></i> </div>
             </div>
         </div>
     </div>
-    <!-- ./col -->
-    <div class="col-lg-3 col-6">
-        <!-- small box -->
-        <div class="small-box bg-info">
-            <div class="inner">
-                <h3>65</h3>
- 
- 
-                <p>Total reports</p>
-            </div>
+ </div>
+ <div class="row">
+    <div class="col-6">
+        <div>
+            <canvas id="myChart"></canvas>
         </div>
     </div>
-    <!-- ./col -->
+    <div class="col-6">
+        <div>
+            <canvas id="myCharttwo"></canvas>
+        </div>
+    </div>
  </div>
  
  
@@ -68,67 +67,7 @@
  <div class="col-12">
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">MEDICINE LIST</h3>
-        </div>
-        <!-- /.card-header -->
-        <div class="card-body">
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th style="width: 10px">S.N</th>
-                        <th>Medicine Name</th>
-                        <th>Catgory</th>
-                        <th>Total Quantity</th>
-                        <th>Price per Unit</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>1.</td>
-                        <td><a href="#">paracitamol</a></td>
-                        <td>
-                            medicine
-                        </td>
-                        <td>15248</td>
-                        <td>RS 1500/-</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-    <div class="card">
-        <div class="card-header">
-            <h3 class="card-title">DOCTER LIST</h3>
-        </div>
-        <!-- /.card-header -->
-        <div class="card-body">
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th style="width: 10px">S.N</th>
-                        <th>Docter Name</th>
-                        <th>Department</th>
-                        <th>contant number</th>
-                        <th>email</th>
-                        <th>Address</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>1.</td>
-                        <td><a href="#">Ram Kumar yadav</a></td>
-                        <td>general opd</td>
-                        <td>984785642310</td>
-                        <td>ramkumaryadav@gmail.com</td>
-                        <td>Kathmandu - Nepal   </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-    <div class="card">
-        <div class="card-header">
-            <h3 class="card-title">PATIENT LIST</h3>
+            <h3 class="card-title">Today's Appointment</h3>
         </div>
         <!-- /.card-header -->
         <div class="card-body">
@@ -137,60 +76,84 @@
                     <tr>
                         <th style="width: 10px">S.N</th>
                         <th>Patient Name</th>
-                        <th>Constult Docter</th>
-                        <th>contant number</th>
-                        <th>email</th>
-                        <th>Address</th>
+                        <th>Doctor name </th>
+                        <th>Doctor specialization</th>
+                        <th>Contact</th>
+                        <th>Date</th>
                     </tr>
                 </thead>
                 <tbody>
+                    {% for i in appointment  %}
                     <tr>
-                        <td>1.</td>
-                        <td><a href="#">Ram Kumar yadav</a></td>
-                        <td>general opd</td>
-                        <td>984785642310</td>
-                        <td>ramkumaryadav@gmail.com</td>
-                        <td>Kathmandu - Nepal   </td>
+                        <td>{{forloop.counter}}</td>
+                        <td><a href="#">{{i.patient_name}}</a></td>
+                        <td><a href="#">{{i.doctor_name }}</a></td>
+                        <td>{{i.doctor_specialization}}</td>
+                        <td>{{i.phone}}</td>
+                        <td>{{i.created_date}}</td>
                     </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-    <div class="card">
-        <div class="card-header">
-            <h3 class="card-title">REPORT LIST</h3>
-        </div>
-        <!-- /.card-header -->
-        <div class="card-body">
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th style="width: 10px">S.N</th>
-                        <th>Patient Name</th>
-                        <th>Constult Docter</th>
-                        <th>Consult Date</th>
-                        <th>Report</th>
-                        <th>Generated by</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>1.</td>
-                        <td><a href="#">Ram Kumar yadav</a></td>
-                        <td><a href="#">Hari Kumar yadav</a></td>
-                        <td>2024/22/22</td>
-                        <td><a href="#">report.pdf</a></td>
-                        <td>Hari Kumar</td>
-                    </tr>
+                    {% endfor %} 
                 </tbody>
             </table>
         </div>
     </div>
  </div>
- 
+ {% endif %}
+ {% if if request.user.is_authenticated %}
+ {% if request.user.is_patient %}
+ <h2>Your Appointment</h2>
+ {% endif %}
+ {% endif %}
 {% endblock content %}
            
-       
+   
 {% block script %}
-{% include "partials/script.html" %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>     
+<script>
+  const ctx = document.getElementById('myChart');
+   new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+      datasets: [{
+        label: 'Patients',
+        data: [{{pjan}}, {{pfeb}}, {{pmar}}, {{papr}}, {{pmay}}, {{pjune}}, {{pjuly}}, {{paug}}, {{psep}}, {{poct}}, {{pnov}}, {{pdec}}],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+</script>
+<script>
+   const ctxy = document.getElementById('myCharttwo');
+   new Chart(ctxy, {
+       type: 'line',
+       data: {
+           labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+           datasets: [{
+               label: 'Appointments',
+               data: [{{jan}}, {{feb}}, {{mar}}, {{apr}}, {{may}}, {{june}}, {{july}}, {{aug}}, {{sep}}, {{oct}}, {{nov}}, {{dec}}],
+               borderWidth: 1
+           }]
+       },
+       options: {
+           scales: {
+               y: {
+                   beginAtZero: true
+               }
+           }
+       }
+   });
+</script>
+
+
+  
+
+{% include "partials/script.html" %} 
 {% endblock script %}

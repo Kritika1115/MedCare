@@ -24,24 +24,112 @@
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                 data-accordion="false">
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-star mr-2"></i>
+                    <a href="{% url "dashboard:dashboard_page" %}" class="nav-link">
+                        <i class="nav-icon fas fa-user mr-2"></i>
 
                         <p>
-                            UI Elements
+                            Dashboard
+                            <i class="fas fa-angle-right right"></i>
+                        </p>
+                    </a>
+                </li> 
+                {% if request.user.is_superuser or request.user.is_doctor %}
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-user mr-2"></i>
+
+                        <p>
+                            Patient
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    {% if request.user.is_superuser %}
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{% url "dashboard:patient_list" %}" class="nav-link">
+                                <i class=" fas fa-eye nav-icon"></i>
+
+                                <p>view patient</p>
+                            </a>
+                        </li>
+                    </ul>
+                    {% endif %}
+                </li> 
+                {% endif %}
+                {% if request.user.is_superuser %}
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-user mr-2"></i>
+
+                        <p>
+                            Doctor
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="pages/UI/general.html" class="nav-link">
-                                <i class=" fas fa-flag nav-icon"></i>
+                            <a href="{% url "dashboard:add_doctor" %}" class="nav-link">
+                                <i class=" fas fa-plus nav-icon"></i>
 
-                                <p>General</p>
+                                <p>Add Doctor</p>
                             </a>
                         </li>
                     </ul>
-                </li>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{% url "dashboard:list_doctor" %}" class="nav-link">
+                                <i class=" fas fa-eye nav-icon"></i>
+
+                                <p>view Doctor</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li> 
+                {% endif %}
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-user mr-2"></i>
+
+                        <p>
+                            Appointment
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    
+                    {% if request.user.is_patient %}
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{% url "dashboard:add_appointment" %}" class="nav-link">
+                                <i class=" fas fa-plus nav-icon"></i>
+
+                                <p>Book Appointment</p>
+                            </a>
+                        </li>
+                    </ul>
+                    
+                    {% endif %}
+                    {% if request.user.is_doctor or request.user.is_superuser %}
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{% url "dashboard:add_appointment" %}" class="nav-link">
+                                <i class=" fas fa-plus nav-icon"></i>
+
+                                <p>Add Appointment</p>
+                            </a>
+                        </li>
+                    </ul>
+                    
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{% url "dashboard:appointment_list_admin" %}" class="nav-link">
+                                <i class=" fas fa-eye nav-icon"></i>
+
+                                <p>view Appointment</p>
+                            </a>
+                        </li>
+                    </ul>
+                    {% endif %}
+                </li> 
             </ul>
         </nav>
         <!-- /.sidebar-menu -->
