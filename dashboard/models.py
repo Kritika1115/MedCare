@@ -11,6 +11,8 @@ class Appointments(models.Model):
     created_date = models.DateTimeField(auto_now_add=True)
     phone = models.CharField(max_length=255)
     notes = models.TextField()
+    is_accepted = models.BooleanField(default=False)
+    is_checked_by_doctor = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = 'appointment'

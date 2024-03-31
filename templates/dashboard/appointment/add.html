@@ -12,16 +12,22 @@
                 
 {% block content %}
 {% load crispy_forms_tags %}
-{% if request.user.is_superuser %}
+{% if request.user.is_patient %}
+<h1 class="m-2 text-mute text-center">Book Appointment</h1>
+{% else %}
 <h1 class="m-2 text-mute text-center">Add Appointment</h1>
+{% endif %}
 <div class="container">
     <form action="" method="post">
         {% csrf_token %}
         {{form|crispy}}
+        {% if request.user.is_patient %}
+        <button class = "btn btn-info">Book Appointment</button>
+        {% else %}
         <button class = "btn btn-info">Add Appointment</button>
+        {% endif %}
     </form>
 </div>
-{% endif %}
 {% endblock content %}  
 {% block script %}
 {% include "partials/script.html" %} 

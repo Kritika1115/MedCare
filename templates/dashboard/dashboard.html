@@ -67,7 +67,7 @@
  <div class="col-12">
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">Appointment List</h3>
+            <h3 class="card-title">Today's Appointment</h3>
         </div>
         <!-- /.card-header -->
         <div class="card-body">
@@ -98,6 +98,11 @@
         </div>
     </div>
  </div>
+ {% endif %}
+ {% if if request.user.is_authenticated %}
+ {% if request.user.is_patient %}
+ <h2>Your Appointment</h2>
+ {% endif %}
  {% endif %}
 {% endblock content %}
            

@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from dashboard.models import Appointments
-from dashboard.forms import DoctorRegisterForm, DoctorUpdateForm, AppointmentUpdateForm
+from dashboard.forms import DoctorRegisterForm, DoctorUpdateForm, AppointmentUpdateForm, AppointmentbookForm
 from django.contrib import messages
 from accounts.models import User
 from django.utils import timezone
@@ -9,7 +9,7 @@ from django.utils import timezone
 # Create your views here.
 @login_required(login_url='/')
 def dashboard_page(request):
-    appointments = Appointments.objects.all()
+    appointments = Appointments.objects.filter(created_date__date=timezone.now().date())
     jan_appointment = Appointments.objects.filter(created_date__month=1).count()
     feb_appointment = Appointments.objects.filter(created_date__month=2).count()
     mar_appointment = Appointments.objects.filter(created_date__month=3).count()
@@ -40,8 +40,11 @@ def dashboard_page(request):
     total_patient = User.objects.filter (is_patient=True).count()
     total_doctor = User.objects.filter (is_doctor=True).count()
     total_appointment = Appointments.objects.filter(created_date__date=timezone.now().date()).count()
+
+    user_appointment = Appointments.objects.filter(user=request.user)
     
     context = {
+        'user_appointment' :  user_appointment,
         'total_patient' :  total_patient,
         'total_doctor' :  total_doctor,
         'total_appointment' : total_appointment,
@@ -127,6 +130,11 @@ def appointment_list_admin(request):
     appointment = Appointments.objects.all()
     return render(request, "dashboard/appointment/list.html", {"appointment": appointment})
 
+# @login_required(login_url='/')
+# def appointment_list_patient(request):
+#     appointment = Appointments.objects.filter(user=request.user)
+#     return render(request, "dashboard/appointment/patientlist.html", {"appointment": appointment})
+
 @login_required(login_url='/')
 def delete_appointment(request, id):
     appointment = Appointments.objects.filter(id=id).first()
@@ -145,19 +153,29 @@ def update_appointment(request, id):
             return redirect("dashboard:appointment_list_admin")
     else:
         form = AppointmentUpdateForm(instance=appointment)
-    return render(request, "dashboard/doctor/update.html", {'form': form})
+    return render(request, "dashboard/appointment/update.html", {'form': form})
 
 @login_required(login_url='/')
 def add_appointment(request):
     if request.method == 'POST':
-        form = AppointmentUpdateForm(request.POST)
+        if request.user.is_patient:
+            form = AppointmentbookForm(request.POST)
+        else:
+            form = AppointmentUpdateForm(request.POST)
         if form.is_valid():
             appointment = form.save(commit=False)
+            appointment.user = request.user
             appointment.save()
-            messages.success(request, "Successfully added appointment")
+            if request.user.is_patient:
+                messages.success(request, "Successfully booked appointment")
+            else:
+                messages.success(request, "Successfully added appointment")
             return redirect("dashboard:appointment_list_admin")
     else:
-        form = AppointmentUpdateForm()
+        if request.user.is_patient:
+            form = AppointmentbookForm()
+        else:
+            form = AppointmentUpdateForm()
     return render(request, 'dashboard/appointment/add.html', {'form': form})
 
 @login_required(login_url='/')

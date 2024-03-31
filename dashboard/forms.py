@@ -16,4 +16,9 @@ class DoctorUpdateForm(forms.ModelForm):
 class AppointmentUpdateForm(forms.ModelForm):
     class Meta:
         model = Appointments
-        fields = ('patient_name','doctor_name', 'doctor_specialization', 'patient_problem', 'phone', 'notes')
+        fields = ('patient_name','doctor_name', 'doctor_specialization', 'patient_problem', 'phone', 'notes', 'is_accepted', 'is_checked_by_doctor')
+
+class AppointmentbookForm(forms.ModelForm):
+    class Meta:
+        model = Appointments
+        fields = ('patient_name','doctor_name', 'doctor_specialization', 'patient_problem', 'phone')
