@@ -4,7 +4,7 @@ from dashboard.models import Appointments
 from dashboard.forms import DoctorRegisterForm, DoctorUpdateForm, AppointmentUpdateForm
 from django.contrib import messages
 from accounts.models import User
-
+from django.utils import timezone
 
 # Create your views here.
 @login_required(login_url='/')
@@ -35,7 +35,16 @@ def dashboard_page(request):
     oct_patient = User.objects.filter(date_joined__month=10).count()
     nov_patient = User.objects.filter(date_joined__month=11).count()
     dec_patient = User.objects.filter(date_joined__month=12).count()
+    
+    
+    total_patient = User.objects.filter (is_patient=True).count()
+    total_doctor = User.objects.filter (is_doctor=True).count()
+    total_appointment = Appointments.objects.filter(created_date__date=timezone.now().date()).count()
+    
     context = {
+        'total_patient' :  total_patient,
+        'total_doctor' :  total_doctor,
+        'total_appointment' : total_appointment,
         'appointment': appointments,
         'jan' : jan_appointment,
         'feb' : feb_appointment,
