@@ -8,9 +8,11 @@ class Appointments(models.Model):
     doctor_name = models.CharField(max_length=255)
     doctor_specialization = models.CharField(max_length=255)
     patient_problem = models.TextField()
+    appointment_date = models.DateTimeField(null=True, blank=True)
     created_date = models.DateTimeField(auto_now_add=True)
     phone = models.CharField(max_length=255)
-    notes = models.TextField()
+    doctor_dignosis = models.TextField()
+    doctor_pescription = models.TextField()
     is_accepted = models.BooleanField(default=False)
     is_checked_by_doctor = models.BooleanField(default=False)
 

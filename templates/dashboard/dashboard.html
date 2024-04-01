@@ -110,28 +110,32 @@
                <div class="row">
                    <div class="col-12">
                        <div class="post">
-                           <span class="description">Doctor Name: {{i.doctor_name}} | Doctor Speciality:{{i.doctor_specialization}}</span>
+                           <span class="description btn btn-info">Doctor Name: {{i.doctor_name}} | Doctor Speciality:{{i.doctor_specialization}}</span>
                            <hr>
                            <div class="row">
-                               <div class="col-3">
-                                <p>Patient name: {{i.patient_name}}</p>
+                               <div class="col-2">
+                                <p class="btn btn-info">Patient name: {{i.patient_name}}</p>
                                </div>
-                               <div class="col-3">Lorem, ipsum dolor.</div>
-                               <div class="col-3">Lorem, ipsum dolor.</div>
-                               <div class="col-3">Lorem, ipsum dolor.</div>
+                               <div class="col-4">
+                                <p class="btn btn-info">appointment date: {{i.appointment_date}}</p>
+                               </div>
+                               <div class="col-2" >
+                                <p class="btn btn-info">
+                                    {% if i.is_accepted == True %}
+                                    Status : Accepted
+                                    {% else %}
+                                    Status : Pending
+                                    {% endif %}
+                                </p>
+                               </div>
+                               <div class="col-4 ">
+                               <P class="btn btn-info">Appointment Booked Date : {{i.created_date}}</P> 
+                               </div>
                            </div><hr>
                            <div class="col-12">
-                            <h6 class="text-mute " style="text-decoration: underline;">Patient problem</h6>
+                            <h6 class="text-mute btn btn-info " style="text-decoration: underline;">Patient problem</h6>
                                {{i.patient_problem | safe}}
                            </div>
-                           <hr>
-                           <div class="col-12">
-                            <h6 class="text-mute" style="text-decoration: underline;">Doctor pescription</h6>
-                               {{i.notes | safe}}
-                           </div>
-                           <p>
-                               <a href="#" class="link-black text-sm">Checked BY Doct: ram parasad</a>
-                           </p>
                        </div> 
                    </div>
                </div>
