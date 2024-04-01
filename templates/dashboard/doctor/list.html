@@ -19,6 +19,7 @@
       <tr>
         <th scope="col">S.N</th>
         <th scope="col">Name</th>
+        <th scope="col">Doctor Specialization</th>
         <th scope="col">Address</th>
         <th scope="col">Contact</th>
         <th scope="col">Actions</th>
@@ -29,15 +30,12 @@
       <tr>
         <th scope="row">{{forloop.counter}}</th>
         <td>{{doctor.first_name }} {{doctor.last_name}}</td>
+        <td>{{doctor.specialization}}</td>
         <td>{{doctor.address}}</td>
         <td>{{doctor.phone}}</td>
         <td><a href="{% url "dashboard:update_doctor" doctor.id %}" class="btn btn-primary">Edit</a> | <a href="#"class="btn btn-danger" data-toggle="modal" data-target="#d{{doctor.id}}">Delete</a></td>
       </tr>
-      <!-- Button trigger modal -->
-<!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-    Launch demo modal
-  </button>
-   -->
+   
   <!-- Modal -->
   <div class="modal fade" id="d{{doctor.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">

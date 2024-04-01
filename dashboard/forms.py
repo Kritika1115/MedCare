@@ -6,7 +6,7 @@ from dashboard.models import Appointments
 class DoctorRegisterForm(UserCreationForm):
     class Meta:
         model = User
-        fields = ('email','first_name', 'last_name', 'phone', 'dob', 'address','password1','password2')
+        fields = ('email','first_name', 'last_name', 'phone', 'dob', 'specialization', 'address','password1','password2')
 
 class DoctorUpdateForm(forms.ModelForm):
     class Meta:
@@ -16,9 +16,17 @@ class DoctorUpdateForm(forms.ModelForm):
 class AppointmentUpdateForm(forms.ModelForm):
     class Meta:
         model = Appointments
-        fields = ('patient_name','doctor_name', 'doctor_specialization', 'patient_problem', 'phone', 'notes', 'is_accepted', 'is_checked_by_doctor')
+        fields = ('patient_name','user', 'patient_problem', 'appointment_date', 'phone', 'doctor_dignosis', 'doctor_pescription', 'is_accepted', 'is_checked_by_doctor')
+
+        labels = {
+            "user" : "Choose doctor *"
+        }
 
 class AppointmentbookForm(forms.ModelForm):
     class Meta:
         model = Appointments
-        fields = ('patient_name','doctor_name', 'doctor_specialization', 'patient_problem', 'phone')
+        fields = ('patient_name','user', 'patient_problem', 'appointment_date', 'phone')
+
+        labels = {
+            "user" : "Choose doctor *"
+        }

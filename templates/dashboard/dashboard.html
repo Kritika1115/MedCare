@@ -78,6 +78,7 @@
                         <th>Patient Name</th>
                         <th>Doctor name </th>
                         <th>Doctor specialization</th>
+                        <th>Appointment Status</th>
                         <th>Contact</th>
                         <th>Date</th>
                     </tr>
@@ -87,8 +88,15 @@
                     <tr>
                         <td>{{forloop.counter}}</td>
                         <td><a href="#">{{i.patient_name}}</a></td>
-                        <td><a href="#">{{i.doctor_name }}</a></td>
-                        <td>{{i.doctor_specialization}}</td>
+                        <td><a href="#">{{i.user.first_name }} {{i.user.last_name}} </a></td>
+                        <td>{{i.user.specialization}}</td>
+                        <td>
+                            {% if i.is_checked_by_doctor == True %}
+                            <p class="badge badge-success">Checked by doctor</p>
+                            {% else %}
+                            <p class="badge badge-warning">Pending</p>
+                            {% endif %}
+                        </td>
                         <td>{{i.phone}}</td>
                         <td>{{i.created_date}}</td>
                     </tr>
@@ -110,28 +118,32 @@
                <div class="row">
                    <div class="col-12">
                        <div class="post">
-                           <span class="description">Doctor Name: {{i.doctor_name}} | Doctor Speciality:{{i.doctor_specialization}}</span>
+                           <span class="description btn btn-info">Doctor Name: {{i.user.first_name}} {{i.user.last_name}} | Doctor Speciality:{{i.user.specialization}}</span>
                            <hr>
                            <div class="row">
-                               <div class="col-3">
-                                <p>Patient name: {{i.patient_name}}</p>
+                               <div class="col-2">
+                                <p class="btn btn-info">Patient name: {{i.patient_name}}</p>
                                </div>
-                               <div class="col-3">Lorem, ipsum dolor.</div>
-                               <div class="col-3">Lorem, ipsum dolor.</div>
-                               <div class="col-3">Lorem, ipsum dolor.</div>
+                               <div class="col-4">
+                                <p class="btn btn-info">appointment date: {{i.appointment_date}}</p>
+                               </div>
+                               <div class="col-2" >
+                                <p class="btn btn-info">
+                                    {% if i.is_accepted == True %}
+                                    Status : Accepted
+                                    {% else %}
+                                    Status : Pending
+                                    {% endif %}
+                                </p>
+                               </div>
+                               <div class="col-4 ">
+                               <P class="btn btn-info">Appointment Booked Date : {{i.created_date}}</P> 
+                               </div>
                            </div><hr>
                            <div class="col-12">
-                            <h6 class="text-mute " style="text-decoration: underline;">Patient problem</h6>
+                            <h6 class="text-mute btn btn-info " style="text-decoration: underline;">Patient problem</h6>
                                {{i.patient_problem | safe}}
                            </div>
-                           <hr>
-                           <div class="col-12">
-                            <h6 class="text-mute" style="text-decoration: underline;">Doctor pescription</h6>
-                               {{i.notes | safe}}
-                           </div>
-                           <p>
-                               <a href="#" class="link-black text-sm">Checked BY Doct: ram parasad</a>
-                           </p>
                        </div> 
                    </div>
                </div>
@@ -143,6 +155,44 @@
 {% endfor %}
 
  {% endif %}
+ {% endif %}
+ {% if request.user.is_doctor %}
+ <h1 class="text-muted text-center">Dashboard</h1>
+ <h4 class="text-muted">Your Appointment</h4>
+ <hr>
+ <table class="table table-bordered">
+    <thead>
+        <tr>
+            <th style="width: 10px">S.N</th>
+            <th>Patient Name</th>
+            {% if request.user.is_superuser %}
+            <th>Doctor name </th>
+            {% endif %}
+            <th>Doctor specialization</th>
+            <th>Contact</th>
+            {% comment %} 
+             {% endcomment %}
+            <th>Date</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for x in specific_appointment  %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td><a href="#">{{x.patient_name}}</a></td>
+            {% if request.user.is_superuser %}
+            <td><a href="#">{{x.user.first_name}} {{x.user.last_name}}</a></td>
+            {% endif %}
+            <td>{{x.user.specialization}}</td>
+            <td>{{x.phone}}</td>
+            <td>{{x.created_date}}</td>
+            <td>
+              <a href="{% url "dashboard:update_appointment" x.id %}" class="btn btn-primary">Update </a> 
+        </tr>
+        {% endfor %} 
+    </tbody>
+</table>
  {% endif %}
 {% endblock content %}
            

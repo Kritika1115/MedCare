@@ -3,14 +3,14 @@ from accounts.models import User
 
 # Create your models here.
 class Appointments(models.Model):
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='user' )
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='user', limit_choices_to={'is_doctor': True} )
     patient_name = models.CharField(max_length=255)
-    doctor_name = models.CharField(max_length=255)
-    doctor_specialization = models.CharField(max_length=255)
     patient_problem = models.TextField()
+    appointment_date = models.DateTimeField()
     created_date = models.DateTimeField(auto_now_add=True)
     phone = models.CharField(max_length=255)
-    notes = models.TextField()
+    doctor_dignosis = models.TextField()
+    doctor_pescription = models.TextField()
     is_accepted = models.BooleanField(default=False)
     is_checked_by_doctor = models.BooleanField(default=False)
 
