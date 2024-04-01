@@ -42,8 +42,10 @@ def dashboard_page(request):
     total_appointment = Appointments.objects.filter(created_date__date=timezone.now().date()).count()
 
     user_appointment = Appointments.objects.filter(user=request.user).order_by('-id')
+    specific_appointment  = Appointments.objects.filter(user=request.user).order_by('-id')
     
     context = {
+        'specific_appointment' :  specific_appointment,
         'user_appointment' :  user_appointment,
         'total_patient' :  total_patient,
         'total_doctor' :  total_doctor,
@@ -127,13 +129,11 @@ def update_doctor(request, id):
 
 @login_required(login_url='/')
 def appointment_list_admin(request):
-    appointment = Appointments.objects.all()
+    if request.user.is_superuser:
+        appointment = Appointments.objects.all()
+    elif request.user.is_doctor:
+        appointment = Appointments.objects.filter(user=request.user)
     return render(request, "dashboard/appointment/list.html", {"appointment": appointment})
-
-# @login_required(login_url='/')
-# def appointment_list_patient(request):
-#     appointment = Appointments.objects.filter(user=request.user)
-#     return render(request, "dashboard/appointment/patientlist.html", {"appointment": appointment})
 
 @login_required(login_url='/')
 def delete_appointment(request, id):
@@ -164,7 +164,7 @@ def add_appointment(request):
             form = AppointmentUpdateForm(request.POST)
         if form.is_valid():
             appointment = form.save(commit=False)
-            appointment.user = request.user
+            #appointment.doctor_specialization = 
             appointment.save()
             if request.user.is_patient:
                 messages.success(request, "Successfully booked appointment")
