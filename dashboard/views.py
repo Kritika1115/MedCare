@@ -41,7 +41,7 @@ def dashboard_page(request):
     total_doctor = User.objects.filter (is_doctor=True).count()
     total_appointment = Appointments.objects.filter(created_date__date=timezone.now().date()).count()
 
-    user_appointment = Appointments.objects.filter(user=request.user).order_by('-id')
+    user_appointment = Appointments.objects.filter(patient=request.user).order_by('-id')
     specific_appointment  = Appointments.objects.filter(user=request.user).order_by('-id')
     
     context = {
@@ -164,7 +164,7 @@ def add_appointment(request):
             form = AppointmentUpdateForm(request.POST)
         if form.is_valid():
             appointment = form.save(commit=False)
-            #appointment.doctor_specialization = 
+            appointment.patient = request.user
             appointment.save()
             if request.user.is_patient:
                 messages.success(request, "Successfully booked appointment")
