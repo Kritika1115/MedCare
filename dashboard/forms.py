@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from accounts.models import User
-from dashboard.models import Appointments
+from dashboard.models import *
 
 class DoctorRegisterForm(UserCreationForm):
     class Meta:
@@ -30,3 +30,17 @@ class AppointmentbookForm(forms.ModelForm):
         labels = {
             "user" : "Choose doctor *"
         }
+        
+class GenerateBillForm(forms.ModelForm):
+    class Meta:
+        model = Bills
+        fields = ('patient', 'appointment', 'bill_no', 'sub_total', 'discount', 'net_amount', 'paid_status')
+
+        labels = {
+            "patient" : "patient"
+        }
+
+class AddBillItemForm(forms.ModelForm):
+    class Meta:
+        model = BillsItems
+        fields = ('description', 'qty', 'amount')
