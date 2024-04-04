@@ -19,7 +19,7 @@ class Appointments(models.Model):
         verbose_name = 'appointment'
 
     def __str__(self):
-        return self.user.first_name + " appointment"
+        return "name:" + self.user.first_name + self.user.last_name +  "appointment:"+ self.patient_name + self.user.email
     
 class Report(models.Model):
     patient = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='reportpatient', limit_choices_to={'is_patient': True} )
@@ -41,6 +41,7 @@ class Bills(models.Model):
     sub_total = models.CharField(max_length=10)
     discount = models.CharField(max_length=10)
     net_amount = models.CharField(max_length=10)
+    paid_status = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = 'bill'

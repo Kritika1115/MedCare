@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from dashboard.models import Appointments
-from dashboard.forms import DoctorRegisterForm, DoctorUpdateForm, AppointmentUpdateForm, AppointmentbookForm
 from django.contrib import messages
 from accounts.models import User
 from django.utils import timezone
+from dashboard.models import *
+from dashboard.forms import *
 
 # Create your views here.
 @login_required(login_url='/')
@@ -189,3 +189,69 @@ def delete_patient(request, id):
     patient = User.objects.filter(id=id).first()
     patient.delete()
     return redirect("dashboard:patient_list")
+
+
+@login_required(login_url='/')
+def generate_bill(request):
+    if request.method == 'POST':
+        form = GenerateBillForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Successfully generated bill")
+            return redirect("dashboard:dashboard_page")
+    else:
+        form = GenerateBillForm()
+    return render(request, 'dashboard/bills/add.html', {'form': form})
+
+@login_required(login_url='/')
+def update_bill(request, id):
+    bill = Bills.objects.filter(id=id).first()
+    if request.method == 'POST':
+        form = GenerateBillForm(request.POST, instance=bill)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Successfully updated bill")
+            return redirect("dashboard:list_bill")
+    else:
+        form = GenerateBillForm(instance=bill)
+    return render(request, "dashboard/bills/update.html", {'form': form})
+
+@login_required(login_url='/')
+def list_bill(request):
+    bill = Bills.objects.all()
+    context = {
+        'bill': bill
+        }
+    return render(request,"dashboard/bills/list.html", context)
+
+@login_required(login_url='/')
+def generate_bill_items(request, bill_id):
+    if request.method == 'POST':
+        form = AddBillItemForm(request.POST)
+        mainbill = Bills.objects.get(id=bill_id)
+        if form.is_valid():
+            bill = form.save(commit=False)
+            bill.bills = mainbill
+            bill.save()
+            messages.success(request, "Successfully added items bill")
+            return redirect("dashboard:bill_item_list", bill_id=bill_id)
+    else:
+        form = AddBillItemForm()
+    return render(request, 'dashboard/bills/item/add.html', {'form': form})
+
+@login_required(login_url='/')
+def bill_item_list(request, bill_id):
+    mainbill = Bills.objects.get(id=bill_id)
+    billitem = BillsItems.objects.filter(bills=mainbill)
+    context = {
+        'billitem': billitem,
+        'bill_id': bill_id,
+        }
+    return render(request,"dashboard/bills/item/list.html", context)
+
+@login_required(login_url='/')
+def delete_bill_item(request, bill_id, item_id):
+    billitem = BillsItems.objects.filter(id=item_id).first()
+    billitem.delete()
+    messages.success(request, "Successfully deleted items bill")
+    return redirect("dashboard:bill_item_list", bill_id=bill_id)
