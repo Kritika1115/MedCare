@@ -1,253 +1,270 @@
-{% extends "partials/layout.html" %}   
+{% extends "partials/layout.html" %}  
+
 
 {% block navbar %}
 {% include "partials/navbar.html" %}
 {% endblock navbar %}
-        
       
+    
 {% block sidebar %}
 {% include "partials/sidebar.html" %}
 {% endblock sidebar %}
-            
-                
+          
+              
 {% block content %}
 {% if request.user.is_superuser %}
 <h1 class="m-2 text-mute">DashBoard</h1>
 <div class="row mt-2">
-    <div class="col-lg-4 ">
-        <!-- small box -->
-        <div class="small-box bg-info">
-            <div class="inner">
-                <h3>{{total_patient}}</h3>
-                <p>Total Patient</p>
-                <div class="icon"> <i class="fa fa-user" aria-hidden="true"></i> </div>
-                
-            </div>
-        </div>
-    </div>
-    <!-- ./col -->
-    <div class="col-lg-4 ">
-        <!-- small box -->
-        <div class="small-box bg-info">
-            <div class="inner">
-                <h3>{{total_doctor}}</h3>
-                <p>Total Doctors</p>
-                <div class="icon"> <i class="fa fa-user-md" aria-hidden="true"></i></div>
-            </div>
-        </div>
-    </div>
-    <!-- ./col -->
-    <div class="col-lg-4 ">
-        <!-- small box -->
-        <div class="small-box bg-info">
-            <div class="inner">
-                <h3>{{total_appointment}}</h3>
-                <p>Appointment Today</p>
-                <div class="icon"> <i class="fa fa-calendar" aria-hidden="true"></i> </div>
-            </div>
-        </div>
-    </div>
- </div>
- <div class="row">
-    <div class="col-6">
-        <div>
-            <canvas id="myChart"></canvas>
-        </div>
-    </div>
-    <div class="col-6">
-        <div>
-            <canvas id="myCharttwo"></canvas>
-        </div>
-    </div>
- </div>
- 
- 
- 
- 
- <div class="col-12">
-    <div class="card">
-        <div class="card-header">
-            <h3 class="card-title">Today's Appointment</h3>
-        </div>
-        <!-- /.card-header -->
-        <div class="card-body">
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th style="width: 10px">S.N</th>
-                        <th>Patient Name</th>
-                        <th>Doctor name </th>
-                        <th>Doctor specialization</th>
-                        <th>Appointment Status</th>
-                        <th>Contact</th>
-                        <th>Date</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for i in appointment  %}
-                    <tr>
-                        <td>{{forloop.counter}}</td>
-                        <td><a href="#">{{i.patient_name}}</a></td>
-                        <td><a href="#">{{i.user.first_name }} {{i.user.last_name}} </a></td>
-                        <td>{{i.user.specialization}}</td>
-                        <td>
-                            {% if i.is_checked_by_doctor == True %}
-                            <p class="badge badge-success">Checked by doctor</p>
-                            {% else %}
-                            <p class="badge badge-warning">Pending</p>
-                            {% endif %}
-                        </td>
-                        <td>{{i.phone}}</td>
-                        <td>{{i.created_date}}</td>
-                    </tr>
-                    {% endfor %} 
-                </tbody>
-            </table>
-        </div>
-    </div>
- </div>
- {% endif %}
- {% if request.user.is_authenticated %}
- {% if request.user.is_patient %}
- <h2 class="text-center pt-3">Your Appointment</h2>
- {% for i in user_appointment  %}
-<div class="card">
-   <div class="card-body mt-2 mb-1">
-       <div class="row">
-           <div class="col-12 col-md-12 col-lg-12 order-2 order-md-1">
-               <div class="row">
-                   <div class="col-12">
-                       <div class="post">
-                           <span class="description btn btn-info">Doctor Name: {{i.user.first_name}} {{i.user.last_name}} | Doctor Speciality:{{i.user.specialization}}</span>
-                           <hr>
-                           <div class="row">
-                               <div class="col-2">
-                                <p class="btn btn-info">Patient name: {{i.patient_name}}</p>
-                               </div>
-                               <div class="col-4">
-                                <p class="btn btn-info">Appointment date: {{i.appointment_date}}</p>
-                               </div>
-                               <div class="col-2" >
-                                <p class="btn btn-info">
-                                    {% if i.is_accepted == True %}
-                                    Status : Accepted
-                                    {% else %}
-                                    Status : Pending
-                                    {% endif %}
-                                </p>
-                               </div>
-                               <div class="col-4 ">
-                               <P class="btn btn-info">Appointment Booked Date : {{i.created_date}}</P> 
-                               </div>
-                           </div><hr>
-                           <div class="col-12">
-                            <h6 class="text-mute btn btn-info " style="text-decoration: underline;">Patient problem</h6>
-                               {{i.patient_problem | safe}}
-                           </div>
-                           <hr>
-                           <div class="col-12">
-                            <p class="btn btn-info">click here for your bill</p>
-                           </div>
-                       </div> 
-                   </div>
-               </div>
+   <div class="col-lg-4 ">
+       <!-- small box -->
+       <div class="small-box bg-info">
+           <div class="inner">
+               <h3>{{total_patient}}</h3>
+               <p>Total Patient</p>
+               <div class="icon"> <i class="fa fa-user" aria-hidden="true"></i> </div>
+              
            </div>
        </div>
    </div>
-   <!-- /.card-body -->
+   <!-- ./col -->
+   <div class="col-lg-4 ">
+       <!-- small box -->
+       <div class="small-box bg-info">
+           <div class="inner">
+               <h3>{{total_doctor}}</h3>
+               <p>Total Doctors</p>
+               <div class="icon"> <i class="fa fa-user-md" aria-hidden="true"></i></div>
+           </div>
+       </div>
+   </div>
+   <!-- ./col -->
+   <div class="col-lg-4 ">
+       <!-- small box -->
+       <div class="small-box bg-info">
+           <div class="inner">
+               <h3>{{total_appointment}}</h3>
+               <p>Appointment Today</p>
+               <div class="icon"> <i class="fa fa-calendar" aria-hidden="true"></i> </div>
+           </div>
+       </div>
+   </div>
 </div>
+<div class="row">
+   <div class="col-6">
+       <div>
+           <canvas id="myChart"></canvas>
+       </div>
+   </div>
+   <div class="col-6">
+       <div>
+           <canvas id="myCharttwo"></canvas>
+       </div>
+   </div>
+</div>
+<div class="col-12">
+   <div class="card">
+       <div class="card-header">
+           <h3 class="card-title">Today's Appointment</h3>
+       </div>
+       <!-- /.card-header -->
+       <div class="card-body">
+           <table class="table table-bordered">
+               <thead>
+                   <tr>
+                       <th style="width: 10px">S.N</th>
+                       <th>Patient Name</th>
+                       <th>Doctor name </th>
+                       <th>Doctor specialization</th>
+                       <th>Appointment Status</th>
+                       <th>Contact</th>
+                       <th>Date</th>
+                   </tr>
+               </thead>
+               <tbody>
+                   {% for i in appointment  %}
+                   <tr>
+                       <td>{{forloop.counter}}</td>
+                       <td><a href="#">{{i.patient_name}}</a></td>
+                       <td><a href="#">{{i.user.first_name }} {{i.user.last_name}} </a></td>
+                       <td>{{i.user.specialization}}</td>
+                       <td>
+                           {% if i.is_checked_by_doctor == True %}
+                           <p class="badge badge-success">Checked by doctor</p>
+                           {% else %}
+                           <p class="badge badge-warning">Pending</p>
+                           {% endif %}
+                       </td>
+                       <td>{{i.phone}}</td>
+                       <td>{{i.created_date}}</td>
+                   </tr>
+                   {% endfor %}
+               </tbody>
+           </table>
+       </div>
+   </div>
+</div>
+{% endif %}
+{% if request.user.is_authenticated %}
+{% if request.user.is_patient %}
+<h2 class="text-center pt-3">Your Appointment</h2>
+{% for i in user_appointment  %}
+<div class="card">
+  <div class="card-body mt-2 mb-1">
+      <div class="row">
+          <div class="col-12 col-md-12 col-lg-12 order-2 order-md-1">
+              <div class="row">
+                  <div class="col-12">
+                      <div class="post">
+                          <span class="description btn btn-success">Doctor Name: {{i.user.first_name}} {{i.user.last_name}} | Doctor Speciality:{{i.user.specialization}}</span>
+                          <hr>
+                          <div class="row">
+                              <div class="col-2">
+                               <p class="btn btn-info">Patient name: {{i.patient_name}}</p>
+                              </div>
+                              <div class="col-4">
+                               <p class="btn btn-info">Appointment date: {{i.appointment_date}}</p>
+                              </div>
+                              <div class="col-2" >
+                               <p class="btn btn-info">
+                                   {% if i.is_accepted == True %}
+                                   Status : Accepted
+                                   {% else %}
+                                   Status : Pending
+                                   {% endif %}
+                               </p>
+                              </div>
+                              <div class="col-4 ">
+                              <P class="btn btn-info">Appointment Booked Date : {{i.created_date}}</P>
+                              </div>
+                          </div><hr>
+                          <div class="col-12">
+                           <h6 class="text-mute btn btn-info " style="text-decoration: underline;">Patient problem</h6>
+                              {{i.patient_problem | safe}}
+                          </div>
+                          <hr>
+                          <div class="col-12">
+                           <h6 class="text-mute btn btn-info " style="text-decoration: underline;">Doctor Pescription</h6>
+                              {{i.doctor_pescription | safe}}
+                          </div>
+                          <hr>
+                          <div class="col-12">
+                           <h6 class="text-mute btn btn-info " style="text-decoration: underline;">Doctor Dignosis</h6>
+                              {{i.doctor_dignosis | safe}}
+                          </div>
+                          <hr>
+                          <div class="col-12">
+                           <a href="{% url "dashboard:customer_bills" app_id=i.id%}" class="btn btn-success">Print your Bills</a>
+                           <a href="{% url "dashboard:customer_report" app_id=i.id %}" class="btn btn-success">Print your report</a>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <!-- /.card-body -->
+</div>
+<hr>
+<hr>
+<hr>
 {% endfor %}
 
- {% endif %}
- {% endif %}
- {% if request.user.is_doctor %}
- <h1 class="text-muted text-center">Dashboard</h1>
- <h4 class="text-muted">Your Appointment</h4>
- <hr>
- <table class="table table-bordered">
-    <thead>
-        <tr>
-            <th style="width: 10px">S.N</th>
-            <th>Patient Name</th>
-            {% if request.user.is_superuser %}
-            <th>Doctor name </th>
-            {% endif %}
-            <th>Doctor specialization</th>
-            <th>Contact</th>
-            {% comment %} 
-             {% endcomment %}
-            <th>Date</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for x in specific_appointment  %}
-        <tr>
-            <td>{{forloop.counter}}</td>
-            <td><a href="#">{{x.patient_name}}</a></td>
-            {% if request.user.is_superuser %}
-            <td><a href="#">{{x.user.first_name}} {{x.user.last_name}}</a></td>
-            {% endif %}
-            <td>{{x.user.specialization}}</td>
-            <td>{{x.phone}}</td>
-            <td>{{x.created_date}}</td>
-            <td>
-              <a href="{% url "dashboard:update_appointment" x.id %}" class="btn btn-primary">Update </a> 
-        </tr>
-        {% endfor %} 
-    </tbody>
+
+{% endif %}
+{% endif %}
+{% if request.user.is_doctor %}
+<h1 class="text-muted text-center">Dashboard</h1>
+<h4 class="text-muted">Your Appointment</h4>
+<hr>
+<table class="table table-bordered">
+   <thead>
+       <tr>
+           <th style="width: 10px">S.N</th>
+           <th>Patient Name</th>
+           {% if request.user.is_superuser %}
+           <th>Doctor name </th>
+           {% endif %}
+           <th>Doctor specialization</th>
+           <th>Contact</th>
+           {% comment %}
+            {% endcomment %}
+           <th>Date</th>
+           <th>Actions</th>
+       </tr>
+   </thead>
+   <tbody>
+       {% for x in specific_appointment  %}
+       <tr>
+           <td>{{forloop.counter}}</td>
+           <td><a href="#">{{x.patient_name}}</a></td>
+           {% if request.user.is_superuser %}
+           <td><a href="#">{{x.user.first_name}} {{x.user.last_name}}</a></td>
+           {% endif %}
+           <td>{{x.user.specialization}}</td>
+           <td>{{x.phone}}</td>
+           <td>{{x.created_date}}</td>
+           <td>
+             <a href="{% url "dashboard:update_appointment" x.id %}" class="btn btn-primary">Update </a>
+       </tr>
+       {% endfor %}
+   </tbody>
 </table>
- {% endif %}
+{% endif %}
 {% endblock content %}
-           
-   
+         
+ 
 {% block script %}
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>     
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>    
 <script>
-  const ctx = document.getElementById('myChart');
-   new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-      datasets: [{
-        label: 'Patients',
-        data: [{{pjan}}, {{pfeb}}, {{pmar}}, {{papr}}, {{pmay}}, {{pjune}}, {{pjuly}}, {{paug}}, {{psep}}, {{poct}}, {{pnov}}, {{pdec}}],
-        borderWidth: 1
-      }]
-    },
-    options: {
-      scales: {
-        y: {
-          beginAtZero: true
-        }
+ const ctx = document.getElementById('myChart');
+  new Chart(ctx, {
+   type: 'bar',
+   data: {
+     labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+     datasets: [{
+       label: 'Patients',
+       data: [{{pjan}}, {{pfeb}}, {{pmar}}, {{papr}}, {{pmay}}, {{pjune}}, {{pjuly}}, {{paug}}, {{psep}}, {{poct}}, {{pnov}}, {{pdec}}],
+       borderWidth: 1
+     }]
+   },
+   options: {
+     scales: {
+       y: {
+         beginAtZero: true
+       }
+     }
+   }
+ });
+</script>
+<script>
+  const ctxy = document.getElementById('myCharttwo');
+  new Chart(ctxy, {
+      type: 'line',
+      data: {
+          labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+          datasets: [{
+              label: 'Appointments',
+              data: [{{jan}}, {{feb}}, {{mar}}, {{apr}}, {{may}}, {{june}}, {{july}}, {{aug}}, {{sep}}, {{oct}}, {{nov}}, {{dec}}],
+              borderWidth: 1
+          }]
+      },
+      options: {
+          scales: {
+              y: {
+                  beginAtZero: true
+              }
+          }
       }
-    }
   });
 </script>
-<script>
-   const ctxy = document.getElementById('myCharttwo');
-   new Chart(ctxy, {
-       type: 'line',
-       data: {
-           labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-           datasets: [{
-               label: 'Appointments',
-               data: [{{jan}}, {{feb}}, {{mar}}, {{apr}}, {{may}}, {{june}}, {{july}}, {{aug}}, {{sep}}, {{oct}}, {{nov}}, {{dec}}],
-               borderWidth: 1
-           }]
-       },
-       options: {
-           scales: {
-               y: {
-                   beginAtZero: true
-               }
-           }
-       }
-   });
-</script>
 
 
-  
 
-{% include "partials/script.html" %} 
+
+
+
+{% include "partials/script.html" %}
 {% endblock script %}
+
+
+
