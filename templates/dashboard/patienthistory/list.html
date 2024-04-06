@@ -1,0 +1,51 @@
+{% extends "partials/layout.html" %}  
+
+
+{% block navbar %}
+{% include "partials/navbar.html" %}
+{% endblock navbar %}
+      
+    
+{% block sidebar %}
+{% include "partials/sidebar.html" %}
+{% endblock sidebar %}
+          
+              
+{% block content %}
+{% load crispy_forms_tags %}
+{% if request.user.is_superuser %}
+<h1 class="m-2 text-mute text-center">Medical historys</h1>
+<table class="table">
+   <thead>
+   <tr>
+       <th scope="col">S.N</th>
+       <th scope="col">Patient Name</th>
+       <th scope="col">Contact Number</th>
+       <th scope="col">Email</th>
+       <th scope="col">Address</th>
+       <th scope="col">Date Of Birth</th>
+       <th scope="col">Actions</th>
+   </tr>
+   </thead>
+   <tbody>
+   {% for i in phistory %}
+   <tr>
+       <th scope="row">{{forloop.counter}}</th>
+       <td>{{i.patient.first_name }} {{i.patient.last_name}}</td>
+       <td>{{i.patient.phone}}</td>
+       <td>{{i.patient.email}}</td>
+       <td>{{i.patient.address}}</td>
+       <td>{{i.patient.dob}}</td>
+       <td><a href="{% url "dashboard:Paitent_history_update" i.id %}" class="btn btn-primary">Edit</a></td>
+   </tr>
+   {% endfor %}
+   </tbody>
+</table>
+{% endif %}
+{% endblock content %} 
+{% block script %}
+{% include "partials/script.html" %}
+{% endblock script %}
+
+
+

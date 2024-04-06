@@ -1,0 +1,91 @@
+{% extends "partials/layout.html" %}  
+
+
+{% block navbar %}
+{% include "partials/navbar.html" %}
+{% endblock navbar %}
+
+
+{% block sidebar %}
+{% include "partials/sidebar.html" %}
+{% endblock sidebar %}
+
+
+{% block content %}
+{% if phistory %}
+   <div class="container  pt-5 pb-5 " style="width: 80%; font-size: 11px;">
+       <h1 class="text-center">
+           MEDIC CARE
+       </h1>
+       <table class="table table-bordered mt-4" style=" border: px solid black;">
+           <thead>
+               <!-- first  start-->
+               <tr>
+                   <th scope="col" colspan="10" class="text-center"> MEDICAL HISTORY</th>
+               </tr>
+               <!-- first end -->
+           </thead>
+           <tbody>
+               <tr>
+                   <th scope="row" colspan="10">
+                       M/S: {{phistory.patient.first_name}} {{phistory.patient.last_name}}<br>
+                       Address: {{phistory.patient.address}}<br>
+                       Phone No: {{phistory.patient.phone}} <br>
+                       Date: {{phistory.created_date}} <br>
+                   </th>
+               </tr>
+               <tr>
+                   <th >Blood Type</th>
+                   <th >{{phistory.blood_type}}</th>
+               </tr>
+               <tr>
+                   <th style="width:20%;">Allergies</th>
+                   <th colspan="1">{{phistory.allergies | safe }}</th>
+               </tr>
+               <tr>
+                   <th style="width:20%;">Illness</th>
+                   <th colspan="1">{{phistory.illness | safe }}</th>
+               </tr>
+               <tr>
+                   <th style="width:20%;">Surgery</th>
+                   <th colspan="1">{{phistory.surgery | safe }}</th>
+               </tr>
+               <tr>
+                   <th style="width:20%;">Medicine Taken</th>
+                   <th colspan="1">{{phistory.medicine_taken | safe }}</th>
+               </tr>
+               <tr>
+                   <th style="width:20%;">Immunization</th>
+                   <th colspan="1">{{phistory.immunization | safe }}</th>
+               </tr>
+               <tr>
+                   <th style="width:20%;">Vitals</th>
+                   <th colspan="1">{{phistory.vitals | safe }}</th>
+               </tr>
+               <tr>
+                   <th style="width:20%;">Weight</th>
+                   <th colspan="1">{{phistory.weight | safe }}</th>
+               </tr>
+               <tr>
+                   <th style="width:20%;">Heart Rate</th>
+                   <th colspan="1">{{phistory.heart_rate | safe }}</th>
+               </tr>
+               <tr>
+                   <th style="width:20%;">Blood Pressure</th>
+                   <th colspan="1">{{phistory.blood_pressure | safe }}</th>
+               </tr>
+           </tbody>
+       </table>
+   </div>
+   <!-- <div>
+       <button class="btn btn-info dontprint" style="margin-left: 45%;" onclick="window.print()">Print Invoice</button>
+   </div> -->
+   {% else %}
+   <p class="text-center" style="padding-top: 20%; font-size: 29px;">!!! Incorrect pin !!!</p>
+   {% endif %}
+{% endblock content %}
+
+
+{% block script %}
+{% include "partials/script.html" %}
+{% endblock script %}

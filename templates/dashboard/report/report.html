@@ -13,7 +13,7 @@
        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
 
-   <title>{{cbill.patient.first_name}} {{cbill.patient.last_name}}</title>
+   <title>{{report.patient.first_name}} {{report.patient.last_name}}</title>
    <style type="text/css" media="print">
        .dontprint
        { display: none; }
@@ -22,58 +22,43 @@
 
 
 <body>
-   {% if cbill %}
+   {% if report %}
    <div class="container  mt-5 mb-5 " style="width: 80%; font-size: 11px;">
        <h1 class="text-center">
-           MEDCARE
+           MEDIC CARE
        </h1>
        <table class="table table-bordered mt-4" style=" border: px solid black;">
            <thead>
                <!-- first  start-->
                <tr>
-                   <th scope="col" colspan="10" class="text-center"> INVOICE</th>
+                   <th scope="col" colspan="10" class="text-center"> MEDICAL REPORT </th>
                </tr>
                <!-- first end -->
            </thead>
            <tbody>
                <tr>
                    <th scope="row" colspan="10">
-                       M/S: {{cbill.patient.first_name}} {{cbill.patient.last_name}}<br>
-                       Address: {{cbill.patient.address}}<br>
-                       Phone No: {{cbill.patient.phone}} <br>
-                       Date: {{cbill.created_date}} <br>
+                       M/S: {{report.patient.first_name}} {{report.patient.last_name}}<br>
+                       Address: {{report.patient.address}}<br>
+                       Phone No: {{report.patient.phone}} <br>
+                       Date: {{report.updated_date}} <br>
                    </th>
                </tr>
                <tr>
-                   <th style="width:5%;">S.N</th>
-                   <th style="width:60%;">Description</th>
-                   <th>Quantity</th>
-                   <th>Amount</th>
+                   <th style="width:50%;">Doctor Dignosis</th>
+                   <th style="width:50%;">Doctor Pescription</th>
                </tr>
-               {% for i in cbill.billitem.all %}
                <tr>
-                   <th colspan="1">{{forloop.counter}}</th>
-                   <th colspan="1">{{i.description}}</th>
-                   <th colspan="1">{{i.qty}}</th>
-                   <th colspan="1">{{i.amount}}/-</th>
-               {% endfor %}
-               </tr>
-                   <th colspan="2" rowspan="2">
-                       {% comment %} <b>Amount:</b> one thousand one hundered twentry /- {% endcomment %}
-                   </th>
-                   <th colspan="2" rowspan="2">
-                       <b>Discount:</b> {{cbill.discount}}/- <br>
-                       <b>Total Amount:</b> {{cbill.net_amount}}/-
-                   </th>
-               </tr>
+                   <th colspan="1">{{report.doctor_dignosis | safe}}</th>
+                   <th colspan="1">{{report.doctor_pescription | safe }}</th>
            </tbody>
        </table>
    </div>
    <div>
-       <button class="btn btn-info dontprint" style="margin-left: 45%;" onclick="window.print()">Print Invoice</button>
+       <button class="btn btn-info dontprint" style="margin-left: 45%;" onclick="window.print()">Print Report</button>
    </div>
    {% else %}
-   <p class="text-center" style="margin-top: 20%; font-size: 29px;">!!! Bill has not been generated !!!</p>
+   <p class="text-center" style="margin-top: 20%; font-size: 29px;">!!! report has not been generated !!!</p>
    {% endif %}
 
 
