@@ -326,7 +326,7 @@ def Paitent_history_update(request, id):
        if form.is_valid():
            form.save()
            messages.success(request, "Successfully updated paitent histroy")
-           return redirect("dashboard:")
+           return redirect("dashboard:Paitent_history_list")
    else:
        form = PatientHistoryForm(instance=phistory)
    return render(request, "dashboard/patienthistory/update.html", {'form': form})

@@ -59,7 +59,10 @@
                         <td>{{i.created_date}}</td>
                         <td>
                           <a href="{% url "dashboard:update_appointment" i.id %}" class="btn btn-primary">Update </a> 
-                          {% if request.user.is_superuser %}
+                          {% if request.user.is_doctor %}
+                         | <a href="{% url "dashboard:customer_report" app_id=i.id %}" class="btn btn-success">print</a></td>
+                         {% endif %}
+                         {% if request.user.is_superuser %}
                          | <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#d{{i.id}}">Delete</a></td>
                          {% endif %}
                     </tr>
