@@ -16,9 +16,10 @@ class DoctorUpdateForm(forms.ModelForm):
        fields = ('email','first_name', 'last_name', 'phone', 'dob', 'specialization', 'address')
       
 class AppointmentUpdateForm(forms.ModelForm):
+   appointment_date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date', 'class': 'datepicker'}))
    class Meta:
        model = Appointments
-       fields = ('patient_name','user', 'patient_problem', 'appointment_date', 'phone', 'doctor_dignosis', 'doctor_pescription', 'is_accepted', 'is_checked_by_doctor')
+       fields = ('user', 'patient_problem', 'appointment_date', 'phone', 'doctor_dignosis', 'doctor_pescription', 'is_accepted', 'is_checked_by_doctor')
 
 
        labels = {
@@ -29,7 +30,7 @@ class AppointmentUpdateForm(forms.ModelForm):
 class AppointmentbookForm(forms.ModelForm):
    class Meta:
        model = Appointments
-       fields = ('patient_name','user', 'patient_problem', 'appointment_date', 'phone')
+       fields = ('user', 'patient_problem', 'appointment_date', 'phone')
 
 
        labels = {

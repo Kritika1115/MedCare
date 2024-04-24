@@ -81,9 +81,6 @@ def dashboard_page(request):
    }
    return render(request,'dashboard/dashboard.html', context)
 
-
-
-
 @login_required(login_url='/')
 def add_doctor(request):
    if request.method == 'POST':

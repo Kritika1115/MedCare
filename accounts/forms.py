@@ -10,3 +10,10 @@ class UserRegisterForm(UserCreationForm):
 
 class CustomPasswordChangeForm(PasswordChangeForm):
     pass
+
+class updateProfile(forms.ModelForm):
+  dob = forms.DateField(widget=forms.DateInput(attrs={'class': 'datepicker'}))
+  class Meta:
+      model = User
+      fields = ('first_name','last_name','address','phone','profile_pic','dob')
+

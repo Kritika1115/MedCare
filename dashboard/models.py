@@ -6,11 +6,10 @@ from accounts.models import User
 class Appointments(models.Model):
    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='user', limit_choices_to={'is_doctor': True} )
    patient = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='patient', limit_choices_to={'is_patient': True} )
-   patient_name = models.CharField(max_length=255)
    patient_problem = models.TextField()
-   appointment_date = models.DateTimeField()
+   appointment_date = models.DateField()
    created_date = models.DateTimeField(auto_now_add=True)
-   phone = models.CharField(max_length=255)
+   phone = models.IntegerField()
    doctor_dignosis = models.TextField()
    doctor_pescription = models.TextField()
    is_accepted = models.BooleanField(default=False)

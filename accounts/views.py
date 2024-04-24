@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from accounts.models import User
-from accounts.forms import UserRegisterForm 
+from accounts.forms import UserRegisterForm,  updateProfile
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from accounts.forms import CustomPasswordChangeForm
@@ -118,4 +118,23 @@ def change_password(request):
         form = CustomPasswordChangeForm(request.user)
     return render(request, "accounts/change_password.html",{"form": form})
         
-    
+@login_required(login_url='/')
+def update_profile(request):
+  instance = request.user
+  if request.method == 'POST':
+      form = updateProfile(request.POST, request.FILES, instance=instance)
+      if form.is_valid():
+          form.save()
+          messages.success(request, "Successfully updated profile")
+          return redirect('accounts:list_profile')
+  else:
+      form = updateProfile(instance=instance)
+  return render(request, 'accounts/profile/update.html', {"form": form})
+
+
+@login_required(login_url='/')
+def list_profile(request):
+  profile = request.user
+  return render(request, 'accounts/profile/list.html', {"profile":profile})
+
+ 
