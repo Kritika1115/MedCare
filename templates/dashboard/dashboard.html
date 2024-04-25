@@ -84,7 +84,7 @@
                    {% for i in appointment  %}
                    <tr>
                        <td>{{forloop.counter}}</td>
-                       <td><a href="#">{{i.patient_name}}</a></td>
+                       <td><a href="#">{{i.patient.first_name}} {{i.patient.first_name}}</a></td>
                        <td><a href="#">{{i.user.first_name }} {{i.user.last_name}} </a></td>
                        <td>{{i.user.specialization}}</td>
                        <td>
@@ -196,7 +196,7 @@
        {% for x in specific_appointment  %}
        <tr>
            <td>{{forloop.counter}}</td>
-           <td><a href="#">{{x.patient_name}}</a></td>
+           <td><a href="#">{{x.patient.first_name}} {{x.patient.last_name}}</a></td>
            {% if request.user.is_superuser %}
            <td><a href="#">{{x.user.first_name}} {{x.user.last_name}}</a></td>
            {% endif %}
